@@ -1,0 +1,26 @@
+runtime: nodejs20
+
+env_variables:
+  NODE_ENV: production
+
+handlers:
+- url: /
+  static_files: build/index.html
+  upload: build/index.html
+  secure: always
+
+- url: /
+  static_dir: build
+  secure: always
+
+# Serve static assets with cache expiration
+- url: /(.+\.(ico|jpg|jpeg|png|gif|svg|js|css|map|woff|woff2|ttf|eot)$)
+  static_files: build/\1
+  upload: build/.+\.(ico|jpg|jpeg|png|gif|svg|js|css|map|woff|woff2|ttf|eot)$
+  expiration: "7d"
+  secure: always
+
+# For everything else, forward to React app
+- url: /.*
+  secure: always
+  script: auto
